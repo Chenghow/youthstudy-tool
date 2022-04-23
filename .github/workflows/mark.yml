@@ -20,9 +20,7 @@ jobs:
       - name: Add xLitemallToken to python file
         run: |
           sed -i '1i\xLitemallToken="${{ secrets.xLitemallToken }}"' main.py
-          echo "​pushdata = '{"token":"${{ secrets.pushtoken }}","title":"'+name+json​.​loads​(​saveHistory​.​text​).​get​(​'msg'​)+'","content":"'+"更新日期:"​+updateDate​,+"名称:"​+name​+"打卡状态:"​+json​.​loads​(​saveHistory​.​text​).​get​(​'msg'​)+'","topic":"test"}'" > main.py
-          echo "​mark​ ​=​ ​requests​.​post(​'http://www.pushplus.plus/send/',data = pushdata)" > main.py
-      
+     
       - name: Set up env
         run: pip install -r requirement.txt
           
