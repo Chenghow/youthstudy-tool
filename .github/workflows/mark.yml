@@ -5,6 +5,9 @@ on:
   schedule:
     - cron: '0 17 * * *'
 
+env:
+  PushToWechat: true
+
 jobs:
   youthstudymark:
      runs-on: ubuntu-latest
@@ -20,3 +23,8 @@ jobs:
       - name: 'command'
         run:                                 
           python main.py
+
+      - name: Push result to Wechat By pushplus
+        if: env.PushToWechat == 'true'
+        run: |
+          python push.py
