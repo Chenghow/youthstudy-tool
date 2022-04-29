@@ -5,6 +5,9 @@ on:
   schedule:
     - cron: '0 4 * * *'
 
+env:
+  push: true
+
 jobs:
   youthstudymark:
     runs-on: ubuntu-latest
@@ -19,14 +22,18 @@ jobs:
 
       - name: Add xLitemallToken to python file
         run: sed -i '1i\xLitemallToken="${{ secrets.xLitemallToken }}"' main.py
+
       - name: Add token
         run: sed -i '1i\token="${{ secrets.PUSHTOKEN }}"' push.py
+
       - name: Set up env
         run: pip install -r requirement.txt
           
       - name: Run main command
         run: |
           python main.py
+
       - name: Push result to Wechat By pushplus
+        if: env.push == 'true'
         run: |
           python push.py
