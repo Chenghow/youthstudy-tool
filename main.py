@@ -10,7 +10,8 @@ cookies = {
     'Hm_lpvt_149ef6fe5d623c086adc1622cf6c0df1': '1649125014',
 }
 
-xLitemallToken="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NTQzMTI4ODcsInBsYXRmb3JtIjoieW91bmciLCJ1c2VybmFtZSI6Ind4X2EyNDJjZTJhLWIyMDYtNGYyNy04N2Y4LWFkNjFmYTE3NDQzMzQzMzMuMDg0MjcxODI0NjMxIn0.U0q0TZv9-mTvzVOAhmkO_NPBRkZQUQeIC21T3i58-rI"
+#如不使用github actions，请删除下方注释并手动设定xLitemallToken
+#xLitemallToken=""
 
 headers = {
     'Host': 'youthstudy.12355.net',
@@ -72,6 +73,7 @@ print("刷题:")
 getList = requests.get('https://youthstudy.12355.net/saomah5/api/question/list', headers=headersj)
 #print(getList.text)
 questionlist=json.loads(getList.text).get("data").get("list")
+submit_output=''
 for questions in questionlist:
     #print(questions['id'])
     json_data = {
@@ -112,6 +114,7 @@ for questions in questionlist:
     #刷题
     submit = requests.post('https://youthstudy.12355.net/saomah5/api/question/submit/question', headers=headers, json=json_data)
     print(json.loads(submit.text).get('msg'),end="")
+    submit_output=submit_output+json.loads(submit.text).get('msg')
 '''
 #获取季
 getcourse = requests.get('https://youthstudy.12355.net/saomah5/api/young/course/list', headers=headersj)
@@ -124,3 +127,8 @@ for course in courselist:
     }
     getdetail = requests.get('https://youthstudy.12355.net/saomah5/api/young/course/detail', headers=headersj, params=params)
 '''
+output={}
+output['title']=name+'签到'+json.loads(saveHistory.text).get('msg')
+output['result']="更新日期:"+updateDate+"\n名称:"+name+"\n打卡状态:"+json.loads(saveHistory.text).get('msg')+"\n刷题：\n"+submit_output
+with open('result.txt','a',encoding='utf8') as new_file:
+    new_file.write(str(output))
