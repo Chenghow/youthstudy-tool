@@ -11,7 +11,7 @@ on:
     - cron: '0 4 * * *'
 
 env:
-  push: true
+  push: false
   way: 'mid' #选择mid或者xLitemallToken
 
 jobs:
