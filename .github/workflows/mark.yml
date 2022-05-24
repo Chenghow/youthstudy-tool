@@ -11,8 +11,8 @@ on:
     - cron: '0 4 * * *'
 
 env:
-  push: true
-  way: 'mid' #选择mid或者xLitemallToken
+  push: false
+  way: '6002732' #选择mid或者xLitemallToken
 
 jobs:
   youthstudymark:
