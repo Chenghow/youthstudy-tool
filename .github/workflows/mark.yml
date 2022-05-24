@@ -1,5 +1,4 @@
 name: 'GitHub Actions Youthstudy Bot'
-# UTC4:00(北京UTC+8 12:00点)触发任务
 on:
   workflow_dispatch:
     inputs:
@@ -8,10 +7,11 @@ on:
         required: true
         default: 'false'
   schedule:
+    # UTC4:00(北京UTC+8 12:00点)触发任务
     - cron: '0 4 * * *'
 
 env:
-  push: false
+  push: true
   way: 'mid' #选择mid或者xLitemallToken
 
 jobs:
