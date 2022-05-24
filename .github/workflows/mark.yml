@@ -12,7 +12,7 @@ on:
 
 env:
   push: false
-  way: '6002732' #选择mid或者xLitemallToken
+  way: 'mid' #选择mid或者xLitemallToken
 
 jobs:
   youthstudymark:
