@@ -8,7 +8,7 @@ on:
         default: 'false'
   schedule:
     # UTC4:00(北京UTC+8 12:00点)触发任务
-    - cron: '0 4 * * *'
+    - cron: '0 5 * * *'
 
 env:
   push: false
