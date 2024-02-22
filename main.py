@@ -110,9 +110,12 @@ def ConverMidToXLToken(raw):
     if re.match('[a-zA-Z]',raw):
         return(raw)
     else:
-        payload='sign='+urllib.parse.quote((json.loads(requests.get('https://tuanapi.12355.net/questionnaire/getYouthLearningUrl?mid='+str(raw),headers=apiHeaders).text))['youthLearningUrl'].replace('https://youthstudy.12355.net/h5/#/?sign=',''))
-        rp=json.loads((requests.post('https://youthstudy.12355.net/apih5/api/user/get',headers=youthstudyHeaders,data=payload)).text)
-        return(rp['data']['entity']['token'])
+        try:
+            payload='sign='+urllib.parse.quote((json.loads(requests.get('https://tuanapi.12355.net/questionnaire/getYouthLearningUrl?mid='+str(raw),headers=apiHeaders).text))['youthLearningUrl'].replace('https://youthstudy.12355.net/h5/#/?sign=',''))
+            rp=json.loads((requests.post('https://youthstudy.12355.net/apih5/api/user/get',headers=youthstudyHeaders,data=payload)).text)
+            return(rp['data']['entity']['token'])
+        except Exception as e:
+            raise Exception('mid转换失败')
 
 # 时间戳
 def t():
@@ -121,8 +124,10 @@ def t():
 #是否达每日积分到限制
 def islimited(XLToken):
     headers['X-Litemall-Token']=XLToken
-    return(json.loads(requests.get('https://youthstudy.12355.net/saomah5/api/young/score/status',headers=headers).text)['data']['entity']['scoreStatus'])
-
+    try:
+        return(json.loads(requests.get('https://youthstudy.12355.net/saomah5/api/young/score/status',headers=headers).text)['data']['entity']['scoreStatus'])
+    except Exception as e:
+        raise Exception('获取积分限制失败:')
 output_list=[]
 if __name__ == '__main__':
     count=0
@@ -261,6 +266,7 @@ if __name__ == '__main__':
             statusOutput=statusOutput+str(count)+'\t'+StudyStatus+'\n'
             output={}
             output['member']=member
+            output['XLtoken']=xLitemallToken
             output['name']=profile.name()
             if IsStudied==True or config['study']['youthstudy']!='yes':
                 output['status']='passed'
@@ -274,8 +280,8 @@ if __name__ == '__main__':
                               '我要答题':submit_output}
             output['score']=score
             output_list.append(output)
-        except:
-            print('出现错误啦')
+        except Exception as e:
+            print('出现错误啦:'+str(e)+'\n')
             statusOutput=statusOutput+str(count)+'\terror\n'
             output_list.append({'member':member,'status':'error'})
     print('\n执行结果如下:')

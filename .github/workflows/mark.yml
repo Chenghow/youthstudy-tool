@@ -38,3 +38,6 @@ jobs:
 
       - name: Summary & Push
         run: python summary.py
+
+      - name: Keep alive
+        uses: gautamkrishnar/keepalive-workflow@v1

@@ -21,8 +21,8 @@
 #### 注：以下所提到的“仓库”皆为你自己Fork的仓库
 1. Fork本仓库（更加建议使用[import](https://github.com/new/import)导入本仓库）
 2. 在仓库的Settings-Secrets-Actions中分别添加以下两个Secrets并按实际情况填写
-    - PUSHTOKEN（pushplus的token，**如不需要推送请将`config.ini`中的`push = yes`字段改为`push = no`**）
-    - mid 【兼容X-Litemall-Token（可混用），多个请以|隔开】（智慧团建-认证资料-生成电子团员证，点击最下方生成按钮。在团员证页面复制链接 应为：`https://tuan.12355.net/wechat/view/information/member_certification_generated.html?memberId=`**xxxxxx**`&showMemberAdditionNames=&showMemberRewardIds=&isShowAllFee=true` 其中xxxxxx即为mid，X-Litemall-Token需抓包获取，不推荐使用）
+    - PUSHTOKEN（pushplus的token，如使用其他推送的话请修改为```推送方法-特定参数```，比如telegram推送的token设置为```telegram-botToken```。**如不需要推送请将`config.ini`中的`push = yes`字段改为`push = no`**）
+    - mid 【兼容X-Litemall-Token（可混用），多个请以|隔开】（智慧团建-认证资料-生成电子团员证，点击最下方生成按钮。上传照片页面复制链接 应为：`https://tuan.12355.net/wechat/view/information/member_certification_photo.html?mid=XXXXXXX` 其中XXXXXXX即为mid，X-Litemall-Token需抓包获取，不推荐使用）
       - 举个栗子
         - `8888888|dfajkhdfkjalsdhfalkd.akdjfhalksjdhfalksdfh|1234567`（共三人，二者混用）
         - `1234567|7654321`（共两人，仅使用mid）
@@ -31,7 +31,7 @@
 4. 在侧边栏找到“GitHub Actions Youthstudy Bot”并点击，再点击右侧的“Enable workflow”启用此action
 - 如本地使用请在main.py中手动指定xLitemallToken或mid
 - 默认每天中午12点(UTC+8)执行定时任务（由于github action的特性，可能会延迟20分钟左右），如需修改请手动更改`- cron: '0 4 * * *'`字段，生成表达式可以用[https://crontab.guru/](https://crontab.guru/)
-
+- 若想仅在学习签到成功后进行推送，请将`config.ini`中`push`节的`time`值设置为`Success`
 ## ⚠安全性警告
 - 使用mid或者XLITEMALLTOKEN可以通过api获取大量个人信息，请不要在任何地方公开（包括但不限于commit至公开仓库、发表在issue中等等）
 - 因此，**请不要在公开仓库的secret以外的任何位置输入您的mid或者XLITEMALLTOKEN**
